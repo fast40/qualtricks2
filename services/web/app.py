@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, abort
+from flask import Flask, Response, request, render_template, redirect, abort
 from helpers import url_bool
 import datasets
 from flask_pymongo import PyMongo
@@ -29,7 +29,10 @@ def get_file():
     if should_redirect:
         return redirect(f'/file/{path.removeprefix("/")}')
     else:
-        return path
+        response = Response(path)
+        response.headers['Access-Control-Allow-Origin'] = '*'
+
+        return response
 
 
 @app.route('/upload', methods=['POST'])
