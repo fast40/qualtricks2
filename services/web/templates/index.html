@@ -21,9 +21,11 @@
 <code id="html"></code>
 {% if datasets %}
 <h2>Datasets</h2>
-{% for dataset in datasets %}
-<b>{{ dataset['dataset_name'] }}</b> (<a href="/get_file?dataset_id={{ dataset['_id'] }}&response_id=${e://Field/ResponseID}&loop_number=1&redirect=false">/get_file?dataset_id={{ dataset['_id'] }}&response_id=${e://Field/ResponseID}&loop_number=1&redirect=false</a>)
-{% endfor %}
+<ul>
+    {% for dataset in datasets %}
+    <li><b>{{ dataset['dataset_name'] }}</b> {{ dataset['_id'] }} (<a href="/get_file?dataset_id={{ dataset['_id'] }}&response_id=${e://Field/ResponseID}&loop_number=1&redirect=false">/get_file?dataset_id={{ dataset['_id'] }}&response_id=${e://Field/ResponseID}&loop_number=1&redirect=false</a>)</li>
+    {% endfor %}
+</ul>
 {% endif %}
 <script src="{{ url_for('static', filename='javascript/snippets.js') }}"></script>
 <script src="{{ url_for('static', filename='javascript/validate_dataset_name.js') }}"></script>
