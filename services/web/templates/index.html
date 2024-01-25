@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Test</h1>
+<h2>Create Dataset</h2>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="zip_file">
+    <input type="text" autocomplete="off" name="dataset_name" placeholder="Dataset Name" oninput='validateDatasetName(this, ["test1", "test2"])'required>
+    <input type="submit" value="Create Dataset">
+</form>
+<h2>Code Snippets</h2>
+<form action="/snippets" onsubmit="event.preventDefault(); generateSnippets();">
+    <select name="dataset_id" required>
+        <option value="" disabled selected>-- Dataset ID --</option>
+        {% for dataset in datasets %}
+        <option value="{{ dataset['_id'] }}">{{ dataset['dataset_name'] }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Generate Code">
+</form>
+<code id="javascript"></code>
+<code id="html"></code>
+{% if datasets %}
+<h2>Datasets</h2>
+{% for dataset in datasets %}
+<b>{{ dataset['dataset_name'] }}</b> (<a href="/get_file?dataset_id={{ dataset['_id'] }}&response_id=${e://Field/ResponseID}&loop_number=1&redirect=false">/get_file?dataset_id={{ dataset['_id'] }}&response_id=${e://Field/ResponseID}&loop_number=1&redirect=false</a>)
+{% endfor %}
+{% endif %}
+<script src="{{ url_for('static', filename='javascript/snippets.js') }}"></script>
+<script src="{{ url_for('static', filename='javascript/validate_dataset_name.js') }}"></script>
+{% endblock content %}
